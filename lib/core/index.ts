@@ -1,3 +1,4 @@
+import { monitorSystem } from "../monitor-system";
 import { interceptAxiosMethods } from "../intercept-axios-methods";
 import { extractRoutes } from "../routes-extractor";
 import { buildRoutingTree } from "../routing-tree";
@@ -10,7 +11,7 @@ export const formation = (options: FormationOptions) => {
   const routingTree = buildRoutingTree(route);
   // TODO: Push To Phalanx Controller
   interceptAxiosMethods(options.axios);
-  // TODO: Continuosly log health checks and send to Phalanx Controller
+  monitorSystem(options.app, options.serverId);
 
   console.log(
     `Phalanx Formation Initialized for App ID: ${options.appId} and Server ID: ${options.serverId}`
