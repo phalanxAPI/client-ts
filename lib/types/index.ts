@@ -3,7 +3,7 @@ export type Route = {
     method: string,
 }
 
-export type RouteMap = {
+export type RoutingTree = {
     methods: Record<string, boolean>,
-    children: Record<string, RouteMap>,
+    children: Record<string, RoutingTree>,
 }
