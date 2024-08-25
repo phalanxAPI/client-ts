@@ -1,5 +1,5 @@
 import * as si from "systeminformation";
-import { SystemInfo } from "./types";
+import { SystemInfo, SystemMonitorOptions } from "./types";
 
 async function getSystemInfo(): Promise<SystemInfo> {
   try {
@@ -41,10 +41,10 @@ async function getSystemInfo(): Promise<SystemInfo> {
   }
 }
 
-export const monitorSystem = (app: any, serverId: string) => {
+export const monitorSystem = ({ serverId, appId }: SystemMonitorOptions) => {
   setInterval(async () => {
     const systemInfo = await getSystemInfo();
-    console.log(systemInfo);
+    // console.log(systemInfo);
     // TODO: Push data to Phalanx Controller
   }, 5000);
 };

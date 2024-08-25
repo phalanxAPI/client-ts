@@ -1,6 +1,10 @@
 import type { AxiosRequestConfig, AxiosResponse, AxiosStatic } from "axios";
 
-export const interceptAxiosMethods = (parentAxiosStatic: AxiosStatic) => {
+export const interceptAxiosMethods = (
+  parentAxiosStatic: AxiosStatic,
+  appId: string,
+  serverId: string
+) => {
   const parentGet = parentAxiosStatic.get;
   const parentPost = parentAxiosStatic.post;
   const parentPut = parentAxiosStatic.put;
@@ -58,6 +62,4 @@ export const interceptAxiosMethods = (parentAxiosStatic: AxiosStatic) => {
     // TODO: Push data to Phalanx Controller
     return parentPatch<T>(url, data, config) as R;
   };
-
-  
 };

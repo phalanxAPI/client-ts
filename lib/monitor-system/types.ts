@@ -21,3 +21,8 @@ export type SystemInfo = {
     isCharging: boolean;
   };
 };
+
+export type SystemMonitorOptions = {
+  appId: string;
+  serverId: string;
+};
