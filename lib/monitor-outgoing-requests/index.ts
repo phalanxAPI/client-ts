@@ -1,10 +1,11 @@
 import type { AxiosRequestConfig, AxiosResponse, AxiosStatic } from "axios";
+import { Options } from "./types";
 
-export const interceptAxiosMethods = (
-  parentAxiosStatic: AxiosStatic,
-  appId: string,
-  serverId: string
-) => {
+export const monitorOutgoingRequests = ({
+  axios: parentAxiosStatic,
+  appId,
+  serverId,
+}: Options) => {
   const parentGet = parentAxiosStatic.get;
   const parentPost = parentAxiosStatic.post;
   const parentPut = parentAxiosStatic.put;

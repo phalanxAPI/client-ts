@@ -22,7 +22,7 @@ export type SystemInfo = {
   };
 };
 
-export type SystemMonitorOptions = {
+export type Options = {
   appId: string;
   serverId: string;
 };

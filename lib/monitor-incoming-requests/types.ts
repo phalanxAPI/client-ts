@@ -1,6 +1,6 @@
 import type { Express } from "express";
 
-export type AnalyticsMonitorOptions = {
+export type Options = {
   app: Express;
   appId: string;
   serverId: string;

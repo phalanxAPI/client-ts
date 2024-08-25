@@ -10,6 +10,5 @@ export type FormationOptions = {
 
 export type DeployOptions = {
   appId: string;
-  serverId: string;
   app: Express;
 };

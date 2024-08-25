@@ -1,5 +1,5 @@
 import * as si from "systeminformation";
-import { SystemInfo, SystemMonitorOptions } from "./types";
+import { SystemInfo, Options } from "./types";
 
 async function getSystemInfo(): Promise<SystemInfo> {
   try {
@@ -41,7 +41,7 @@ async function getSystemInfo(): Promise<SystemInfo> {
   }
 }
 
-export const monitorSystem = ({ serverId, appId }: SystemMonitorOptions) => {
+export const monitorSystem = ({ serverId, appId }: Options) => {
   setInterval(async () => {
     const systemInfo = await getSystemInfo();
     // console.log(systemInfo);

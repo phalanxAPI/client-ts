@@ -1,7 +1,7 @@
-import { AnalyticsMonitorOptions } from "./types";
+import { Options } from "./types";
 
-const monitorAPIRequests = (options: AnalyticsMonitorOptions) => {
-  options.app.use((req, res, next) => {
+const monitorIncomingRequests = ({ app }: Options) => {
+  app.use((req, res, next) => {
     console.log("ENDPOINT TEST", req.method, req.url);
     // TODO: Push data to Phalanx Controller
 
@@ -13,4 +13,4 @@ const monitorAPIRequests = (options: AnalyticsMonitorOptions) => {
   });
 };
 
-export default monitorAPIRequests;
+export default monitorIncomingRequests;
