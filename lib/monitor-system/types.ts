@@ -5,11 +5,11 @@ export type NetworkStats = {
 };
 
 export type SystemInfo = {
-  cpuLoad: string;
+  cpuLoad: number;
   memUsage: {
     active: number;
     total: number;
-    usagePercent: string;
+    usagePercent: number;
   };
   diskIO: {
     read: number | null;

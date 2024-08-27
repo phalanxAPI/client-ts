@@ -1,6 +1,6 @@
 import { Options } from "./types";
 
-const monitorIncomingRequests = ({ app }: Options) => {
+const monitorIncomingRequests = ({ app, appId, serverId }: Options) => {
   app.use((req, res, next) => {
     console.log("ENDPOINT TEST", req.method, req.url);
     // TODO: Push data to Phalanx Controller

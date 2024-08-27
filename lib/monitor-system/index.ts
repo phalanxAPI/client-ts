@@ -13,11 +13,13 @@ async function getSystemInfo(): Promise<SystemInfo> {
       ]);
 
     const systemInfo: SystemInfo = {
-      cpuLoad: cpuLoad.currentLoad.toFixed(2),
+      cpuLoad: parseFloat(cpuLoad.currentLoad.toFixed(2)),
       memUsage: {
         active: memUsage.active,
         total: memUsage.total,
-        usagePercent: ((memUsage.active / memUsage.total) * 100).toFixed(2),
+        usagePercent: parseFloat(
+          ((memUsage.active / memUsage.total) * 100).toFixed(2)
+        ),
       },
       diskIO: {
         read: diskIO.rIO_sec,
