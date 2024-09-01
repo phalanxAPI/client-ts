@@ -41,13 +41,11 @@ const monitorIncomingRequests = ({ app, appId, serverId }: Options) => {
       const endTimestamp = Date.now();
 
       setTimeout(() => {
-        console.log("requestId", requestId);
         if (requestId) {
           // TODO: Extract body by overriding res.write and res.end
           const body = {};
           const headers = res.getHeaders();
 
-          console.log();
           client.reportResponseToInbound(
             {
               requestId: requestId,
