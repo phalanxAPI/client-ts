@@ -1,52 +1,69 @@
+import { client } from "./grpc.ts";
+import { Options, SystemInfo } from "./types";
+import * as os from "os";
 import * as si from "systeminformation";
-import { SystemInfo, Options } from "./types";
 
-async function getSystemInfo(): Promise<SystemInfo> {
-  try {
-    const [cpuLoad, memUsage, diskIO, networkStats, battery] =
-      await Promise.all([
-        si.currentLoad(),
-        si.mem(),
-        si.disksIO(),
-        si.networkStats(),
-        si.battery(),
-      ]);
+export const monitorSystem = async ({ appId, serverId }: Options) => {
+  const reportInterval = 5000; // Report every 60 seconds
 
-    const systemInfo: SystemInfo = {
-      cpuLoad: parseFloat(cpuLoad.currentLoad.toFixed(2)),
+  const getSystemInfo = async (): Promise<SystemInfo> => {
+    const [cpu, mem, disk, networkStats, battery] = await Promise.all([
+      si.currentLoad(),
+      si.mem(),
+      si.disksIO(),
+      si.networkStats(),
+      si.battery(),
+    ]);
+
+    return {
+      cpuLoad: cpu.currentLoad,
       memUsage: {
-        active: memUsage.active,
-        total: memUsage.total,
-        usagePercent: parseFloat(
-          ((memUsage.active / memUsage.total) * 100).toFixed(2)
-        ),
+        active: mem.active,
+        total: mem.total,
+        usagePercent: ((mem.active / mem.total) * 100).toFixed(2),
       },
       diskIO: {
-        read: diskIO.rIO_sec,
-        write: diskIO.wIO_sec,
+        read: disk.rIO,
+        write: disk.wIO,
       },
-      networkStats: networkStats.map((iface) => ({
-        interface: iface.iface,
-        rx_sec: iface.rx_sec,
-        tx_sec: iface.tx_sec,
+      networkStats: networkStats.map((stat) => ({
+        interface: stat.iface,
+        rxSec: stat.rx_sec,
+        txSec: stat.tx_sec,
       })),
       battery: {
         percent: battery.percent,
         isCharging: battery.isCharging,
       },
     };
+  };
 
-    return systemInfo;
-  } catch (error) {
-    console.error(`Error retrieving system information: ${error}`);
-    throw error;
-  }
-}
+  const reportSystemState = async () => {
+    try {
+      const systemInfo = await getSystemInfo();
+      const timestamp = Date.now();
 
-export const monitorSystem = ({ serverId, appId }: Options) => {
-  setInterval(async () => {
-    const systemInfo = await getSystemInfo();
-    // console.log(systemInfo);
-    // TODO: Push data to Phalanx Controller
-  }, 5000);
+      client.reportSystemState(
+        {
+          appId,
+          serverId,
+          timestamp: {
+            seconds: Math.floor(timestamp / 1000),
+            nanos: (timestamp % 1000) * 1e6,
+          },
+          systemInfo,
+        },
+        (err: any) => {
+          if (err) {
+            console.error("PHALANX: Error in reporting system state", err);
+          }
+        }
+      );
+    } catch (error) {
+      console.error("PHALANX: Error in getting system information", error);
+    }
+  };
+
+  // Start reporting system state
+  setInterval(reportSystemState, reportInterval);
 };
