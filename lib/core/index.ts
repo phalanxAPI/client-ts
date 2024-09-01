@@ -2,7 +2,7 @@ import monitorIncomingRequests from "../monitor-incoming-requests";
 import { monitorOutgoingRequests } from "../monitor-outgoing-requests";
 import { monitorSystem } from "../monitor-system";
 import { extractRoutes } from "../routes-extractor";
-import { buildRoutingTree } from "../routing-tree";
+import { buildRoutingTree, saveRoutingTree } from "../routing-tree";
 import { DeployOptions, FormationOptions } from "./types";
 
 export const formation = ({
@@ -22,11 +22,12 @@ export const formation = ({
   );
 };
 
-export const deploy = ({ app, appId }: DeployOptions) => {
+export const deploy = ({ app, appId, serverId, baseUrl }: DeployOptions) => {
   console.log("Deploying Phalanx Formation");
 
   const route = extractRoutes(app);
   const routingTree = buildRoutingTree(route);
+  saveRoutingTree({ appId, serverId, baseUrl, tree: routingTree });
   // TODO: Push To Phalanx Controller
 
   console.log(`Phalanx Formation Deployed for App ID: ${appId}`);

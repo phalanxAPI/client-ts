@@ -10,5 +10,7 @@ export type FormationOptions = {
 
 export type DeployOptions = {
   appId: string;
+  serverId: string;
+  baseUrl: string;
   app: Express;
 };

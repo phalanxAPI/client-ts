@@ -1,4 +1,6 @@
 import { Route, RoutingTree } from "../types";
+import { client } from "./grpc";
+import { SaveOptions } from "./types";
 
 class RoutingTreeBuilder {
   _routingTree = {} as RoutingTree;
@@ -36,6 +38,28 @@ export const buildRoutingTree = (routes: Route[]) => {
   });
 
   return mapBuilder.getRoutingTree();
+};
+
+export const saveRoutingTree = async (options: SaveOptions) => {
+  await new Promise<void>((resolve, reject) => {
+    client.updateRoutes(
+      {
+        appId: options.appId,
+        serverId: options.serverId,
+        baseUrl: options.baseUrl,
+        routingTree: options.tree,
+      },
+      (err: any) => {
+        if (err) {
+          console.error("PHALANX: Error Updating Routing Tree", err);
+          reject(err);
+          return;
+        }
+        console.log("PHALANX: Routing Tree Updated");
+        resolve();
+      }
+    );
+  });
 };
 
 export default RoutingTreeBuilder;
