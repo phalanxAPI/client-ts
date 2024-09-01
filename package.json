@@ -9,6 +9,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.11.1",
+    "@types/google-protobuf": "^3.15.12",
     "express": "^4.19.2",
     "systeminformation": "^5.23.4"
   }
