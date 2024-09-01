@@ -60,7 +60,7 @@ const monitorRequest = async ({
           nanos: 0,
         },
       },
-      (err: any, response: any) => {
+      (err: any) => {
         if (err) {
           console.error(err);
           reject(err);
