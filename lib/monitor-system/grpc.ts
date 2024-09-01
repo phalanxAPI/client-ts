@@ -20,6 +20,6 @@ const sysmonConstructor =
   sysmonPackage.SysmonService as ServiceClientConstructor;
 
 export var client = new sysmonConstructor(
-  process.env.SYSMON_SERVICE_URL || "localhost:9004",
+  process.env.SYSMON_SERVICE_URL || "localhost:9002",
   gRPC.credentials.createInsecure()
 );

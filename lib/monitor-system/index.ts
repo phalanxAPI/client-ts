@@ -28,8 +28,8 @@ export const monitorSystem = async ({ appId, serverId }: Options) => {
       },
       networkStats: networkStats.map((stat) => ({
         interface: stat.iface,
-        rxSec: stat.rx_sec,
-        txSec: stat.tx_sec,
+        rxSec: stat.rx_sec || 0,
+        txSec: stat.tx_sec || 0,
       })),
       battery: {
         percent: battery.percent,
