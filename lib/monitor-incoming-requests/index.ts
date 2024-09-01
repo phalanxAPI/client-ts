@@ -43,7 +43,8 @@ const monitorIncomingRequests = ({ app, appId, serverId }: Options) => {
       setTimeout(() => {
         console.log("requestId", requestId);
         if (requestId) {
-          const body = res.body;
+          // TODO: Extract body by overriding res.write and res.end
+          const body = {};
           const headers = res.getHeaders();
 
           console.log();
